@@ -1,6 +1,88 @@
 from matplotlib import pyplot as plt
 import argparse, cv2
 import numpy as np
+import morphology
+
+def valid_input(input):
+	try:
+		i = int(input)
+		valid = 1;
+	except ValueError:
+		print('Not valid input');
+		valid = 0;
+	return valid;
+
+def main():
+	d_filename = 'd.jpg'
+	d_dotted_filename = 'd_dotted.jpg'
+	d_noise_filename = 'd_noise.jpg'
+
+	while(True):
+		print("\n")
+		print('Tarea 02 de MC - BARCODE POSTPROCESSING')
+		print('1. Morphology')
+		print('2. Connected component detection')
+		print('3. Inclination detection')
+		print('4. exit')
+		option = input('Select option [1 - 4]: ')
+
+		if valid_input(option)==1:
+			option = int(option)
+			if option > 0 and option < 7:
+				if option==1:
+					print('\n')
+					print('1. Erosion')
+					print('2. Dilation')
+					print('3. Opening')
+					print('4. Closure')
+					print('5. back')
+					method = input('Select method [1 - 5]: ')
+
+					if valid_input(method)==1:
+						method = int(method)
+						if method > 0 and method < 6:
+							if method==1:
+								
+								print("\n")
+								factor = input('Write erosion factor (default=2): ')
+								if factor=="":
+									factor = 2
+									morphology.erosion(d_filename, factor)
+								else:
+									if valid_input(factor):
+										factor = int(factor)
+										morphology.erosion(d_filename, factor)
+
+							elif method==2:
+								
+								print("\n")
+								factor = input('Write dilation factor (default=2): ')
+								if factor=="":
+									factor = 2
+									morphology.dilation(d_filename, factor)
+								else:
+									if valid_input(factor):
+										factor = int(factor)
+										morphology.dilation(d_filename, factor)
+
+							elif method==3:
+								morphology.opening(d_noise_filename)
+							elif method==4:
+								morphology.closing(d_dotted_filename)
+						else:
+							print('No valid input');
+
+
+				elif option==2:
+					print('\n')
+				elif option==3:
+					print('\n')
+				elif option==4:
+					break;
+			else:
+				print('No valid input');
+
+
 
 def run(image_filename):
 	image = cv2.imread(image_filename)
@@ -21,7 +103,7 @@ def run(image_filename):
 	kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (21, 7))
 	closed = cv2.morphologyEx(threshold, cv2.MORPH_CLOSE, kernel)
 
-	# erosions and dilatations
+	# erosions and dilations
 	closed = cv2.erode(closed, None, iterations = 4)
 	closed = cv2.dilate(closed, None, iterations = 4)
 
@@ -61,7 +143,8 @@ def run(image_filename):
 	return None
 
 if __name__=='__main__':
-	argument_parser = argparse.ArgumentParser(description="Detect barcode in image")
-	argument_parser.add_argument("-i", "--image", required = True, help = "Relative path to barcode image file")
-	args = vars(argument_parser.parse_args())
-	run(args["image"])
+	#argument_parser = argparse.ArgumentParser(description="Detect barcode in image")
+	#argument_parser.add_argument("-i", "--image", required = True, help = "Relative path to barcode image file")
+	#args = vars(argument_parser.parse_args())
+	#run(args["image"])
+	main()
