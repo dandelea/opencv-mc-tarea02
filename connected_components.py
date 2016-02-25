@@ -3,6 +3,8 @@ import random
 import cv2
 from matplotlib import pyplot as plt
 
+## Connected components algorithms
+
 def connected_components (img_url, n=8):
 	img = cv2.imread(img_url, 0)
 	if n==4:
@@ -179,35 +181,33 @@ def connected_components_8neighbours(img):
 
 				# If pixel a is in the image and black
 				# 	Add pixel a to neighbours
-				if x>0 and y>0 :
-					if img[x-1,y-1]==0:
+				if x>0 and y>0 and img[x-1,y-1]==0:
 						neighbours.append((x-1, y-1))
 				# If pixel b is in the image and black
 				# 	Add pixel a to neighbours
-				if x>0:
-					if img[x-1,y]==0:
+				if x>0 and img[x-1,y]==0:
 						neighbours.append((x-1,y))
 				# If pixel c is in the image and black
 				# 	Add pixel a to neighbours
-				if x>0 and y<width-1:
-					if img[x-1, y+1]==0:
+				if x>0 and y<width-1 and img[x-1, y+1]==0:
 						neighbours.append((x-1, y+1))
 				# If pixel d is in the image and black
 				# 	Add pixel a to neighbours
-				if y>0:
-					if img[x,y-1]==0:
+				if y>0 and img[x,y-1]==0:
 						neighbours.append((x,y-1))
 
 				if len(neighbours)==0:
 					current_label += 1
 					labels[x,y] = current_label
 				else:
-					#labels[x,y] = 
-					neighbours_labels = [labels[n[0], n[1]] for n in neighbours]
+					neighbours_labels = list(set([labels[n[0], n[1]] for n in neighbours]))
 					labels[x,y] = min(neighbours_labels)
+
 					for nl in neighbours_labels:
 						if nl != labels[x,y]:
 							eq_labels[nl] = labels[x,y]
+							
+							
 
 
 	#
