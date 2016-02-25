@@ -1,7 +1,7 @@
 from matplotlib import pyplot as plt
 import argparse, cv2
 import numpy as np
-import morphology
+import morphology, connected_components
 
 def valid_input(input):
 	try:
@@ -16,6 +16,7 @@ def main():
 	d_filename = 'd.jpg'
 	d_dotted_filename = 'd_dotted.jpg'
 	d_noise_filename = 'd_noise.jpg'
+	figures_filename = 'figures.png'
 
 	while(True):
 		print("\n")
@@ -75,6 +76,22 @@ def main():
 
 				elif option==2:
 					print('\n')
+					print('1. 4-neighbour')
+					print('2. 8-neigbour')
+					print('3. Compare all')
+					method = input('Select method (Default=2): ')
+
+					if method=="":
+						connected_components.connected_components(figures_filename, 8)
+					else:
+						if valid_input(method)==1:
+							method = int(method)
+							if method>0 and method<4:
+								if method==3:
+									connected_components.compare(figures_filename)
+								else:
+									method=method*4
+									connected_components.connected_components(figures_filename, method)
 				elif option==3:
 					print('\n')
 				elif option==4:
