@@ -1,6 +1,6 @@
 from matplotlib import pyplot as plt
 import numpy as np
-import cv2, morphology, connected_components, transform, barcode
+import cv2, morphology, connected_components, transform, barcode, math
 
 def valid_input(input):
 	try:
@@ -15,7 +15,7 @@ def main():
 	d_filename = 'd.jpg'
 	d_dotted_filename = 'd_dotted.jpg'
 	d_noise_filename = 'd_noise.jpg'
-	figures_filename = 'figures.png'
+	figures_filename = 'figures2.png'
 	sudoku_filename = 'sudoku.jpg'
 	barcode_filename = 'barcode6.jpg'
 
