@@ -1,0 +1,14 @@
+Para instalar las herramientas, siga las instrucciones recogidas en el documento de la tarea 01, o bien en el repositorio de Github de la tarea1(https://github.com/dandelea/opencv-mc-tarea01)
+
+Las herramientas necesarias son:
+- OpenCV 3.0.0 y dependencias.
+- Numpy.
+- Matplotlib, correctamente configurado.
+- Python 3.4.3.
+- Virtualenv.
+
+Para comenzar a ejecutar el programa siga los siguientes comandos:
+- Para inciar el entorno virtual de Python: workon nombre_entorno
+- Para iniciar el programa: python3 main.py
+
+A continuación siga las instrucciones que aparezcan en consola para ejecutar las operaciones implementadas.
