@@ -48,18 +48,21 @@ def run(img_url):
 	scharr = cv2.convertScaleAbs(cv2.addWeighted(scharrx,0.5,scharry,0.5,0))
 
 	# Blur with average filter
-	blurred = cv2.blur(scharr, (5,5))
+	blurred = cv2.blur(scharr, (7,7))
 	
 	# Threshold binary
 	(_, threshold) = cv2.threshold(blurred, 180, 255, cv2.THRESH_BINARY)
 
 	# construct a closing kernel and apply it to the thresholded image
 	kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (21, 7))
+	# opening reduces white noise
+	closed = cv2.morphologyEx(threshold, cv2.MORPH_OPEN, kernel)
+	# closing fills empty spaces between lines
 	closed = cv2.morphologyEx(threshold, cv2.MORPH_CLOSE, kernel)
 
-	# erosions and dilations
-	closed = cv2.erode(closed, None, iterations = 4)
-	closed = cv2.dilate(closed, None, iterations = 4)
+	# erosions and dilations clean the image noises
+	closed = cv2.erode(closed, kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (7, 7)), iterations = 2)
+	closed = cv2.dilate(closed, kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (7, 7)), iterations = 2)
 
 	# find the contours in the thresholded image, then sort the contours
 	# by their area, keeping only the largest one
